@@ -82,3 +82,18 @@ function saveTestResults(download, upload, ping) {
     
     loadHistory();
 }
+
+// Add this to your existing app.js
+async function detectLocation() {
+  try {
+    const response = await fetch('https://ipapi.co/json/');
+    if (!response.ok) throw new Error('Network response was not ok');
+    
+    const data = await response.json();
+    document.getElementById('city').textContent = `${data.city}, ${data.country_name}`;
+    document.getElementById('isp').textContent = data.org.split(' ')[0]; // Show only ISP name
+  } catch (error) {
+    console.error('Location detection failed:', error);
+    document.getElementById('location-info').textContent = 'Location detection failed';
+  }
+}
