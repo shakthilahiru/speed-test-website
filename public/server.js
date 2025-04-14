@@ -3,38 +3,30 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.static('public'));
 
 // Speed test endpoints
 app.get('/download', (req, res) => {
-    const size = 10 * 1024 * 1024; // 10MB
-    res.setHeader('Content-Length', size);
-    res.send(Buffer.alloc(size));
+  const size = 10 * 1024 * 1024; // 10MB
+  res.setHeader('Content-Length', size);
+  res.send(Buffer.alloc(size));
 });
 
 app.post('/upload', (req, res) => {
-    req.on('data', () => {});
-    req.on('end', () => res.sendStatus(200));
+  req.on('data', () => {});
+  req.on('end', () => res.sendStatus(200));
 });
 
 app.get('/ping', (req, res) => {
-    res.sendStatus(200);
+  res.sendStatus(200));
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-const express = require('express');
-const app = express();
-
-// Your existing server code here
-
-// Vercel requires module.exports
+// Vercel-compatible export
 module.exports = app;
 
-// Local development fallback
+// Local development
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
