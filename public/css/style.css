@@ -1,0 +1,122 @@
+:root {
+    --primary: #2A2A72;
+    --secondary: #009FFD;
+    --accent: #00C896;
+    --background: #f8f9fa;
+    --text: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#location-info {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+}
+
+.test-container {
+    margin: 2rem 0;
+}
+
+.test-box {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.speedometer {
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.speed-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary), var(--accent));
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.history-section {
+    margin: 3rem 0;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+#speed-chart {
+    margin: 2rem 0;
+    max-height: 300px;
+}
+
+.history-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.history-item {
+    padding: 1rem;
+    background: var(--background);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .test-box {
+        padding: 1rem;
+    }
+    
+    button {
+        padding: 0.8rem;
+    }
+}
