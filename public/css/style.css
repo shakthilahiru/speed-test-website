@@ -6,6 +6,18 @@
     --text: #333;
 }
 
+.error-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff4444;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    display: none;
+    z-index: 1000;
+}
+
 * {
     margin: 0;
     padding: 0;
