@@ -1,38 +1,15 @@
-// Add at the top
-const SPEED_TEST_SIZE = 10 * 1024 * 1024; // 10MB
-
-// Modified endpoints
-app.get('/download', (req, res) => {
-    res.set({
-        'Content-Type': 'application/octet-stream',
-        'Content-Length': SPEED_TEST_SIZE,
-        'Cache-Control': 'no-store, max-age=0'
-    });
-    res.send(Buffer.alloc(SPEED_TEST_SIZE));
-});
-
-app.post('/upload', express.raw({ 
-    type: 'application/octet-stream',
-    limit: '15mb' 
-}), (req, res) => {
-    res.set('Connection', 'close');
-    res.sendStatus(200);
-});
-
-// New endpoint for validation
-app.get('/status', (req, res) => {
-    res.json({
-        status: 'ok',
-        timestamp: Date.now()
-    });
-});
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
 
-// Enhanced CORS configuration
+// Configuration
+const SPEED_TEST_CONFIG = {
+    downloadSize: 10 * 1024 * 1024, // 10MB
+    uploadLimit: '15mb'
+};
+
+// Middleware
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'HEAD'],
@@ -42,34 +19,28 @@ app.use(cors({
 
 app.use(express.static('public'));
 
-// Download endpoint with proper headers
+// Speed Test Endpoints
 app.get('/download', (req, res) => {
-    const size = 10 * 1024 * 1024; // 10MB
     res.set({
         'Content-Type': 'application/octet-stream',
-        'Content-Length': size,
+        'Content-Length': SPEED_TEST_CONFIG.downloadSize,
         'Cache-Control': 'no-store, max-age=0'
     });
-    res.send(Buffer.alloc(size));
+    res.send(Buffer.alloc(SPEED_TEST_CONFIG.downloadSize));
 });
 
-// Upload endpoint with size limit
-app.post('/upload', express.raw({ limit: '15mb' }), (req, res) => {
-    res.set('Connection', 'close');
-    res.sendStatus(200);
-});
+app.post('/upload', express.raw({
+    type: 'application/octet-stream',
+    limit: SPEED_TEST_CONFIG.uploadLimit
+}), (req, res) => res.sendStatus(200));
 
-// Ping endpoint
-app.head('/ping', (req, res) => {
-    res.sendStatus(200);
-});
+app.head('/ping', (req, res) => res.sendStatus(200));
+app.get('/status', (req, res) => res.json({ status: 'ok', timestamp: Date.now() }));
 
 module.exports = app;
 
-// Local server
+// Local development
 if (require.main === module) {
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
