@@ -1,3 +1,32 @@
+// Add at the top
+const SPEED_TEST_SIZE = 10 * 1024 * 1024; // 10MB
+
+// Modified endpoints
+app.get('/download', (req, res) => {
+    res.set({
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': SPEED_TEST_SIZE,
+        'Cache-Control': 'no-store, max-age=0'
+    });
+    res.send(Buffer.alloc(SPEED_TEST_SIZE));
+});
+
+app.post('/upload', express.raw({ 
+    type: 'application/octet-stream',
+    limit: '15mb' 
+}), (req, res) => {
+    res.set('Connection', 'close');
+    res.sendStatus(200);
+});
+
+// New endpoint for validation
+app.get('/status', (req, res) => {
+    res.json({
+        status: 'ok',
+        timestamp: Date.now()
+    });
+});
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
